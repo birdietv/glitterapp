@@ -1,54 +1,57 @@
 # Glitter Text Generator
 
-A web application that generates animated glitter text GIFs. Users can input custom text, choose fonts, and apply various glitter effects.
+A web application that generates glittery text effects using custom fonts and glitter animations.
 
 ## Features
 
-- Custom text input
-- Multiple font options
-- Various glitter effects
-- Animated GIF output
-- Transparent background
-- Download functionality
+- Create text with glitter effects
+- Choose from various Google Fonts
+- Multiple glitter effect options
+- Real-time preview
+- Download generated images
 
-## Local Development
+## Setup
 
-1. Clone the repository:
-```bash
-git clone <your-repo-url>
-cd glittertxt
-```
+1. Clone this repository
+2. Create a virtual environment and activate it:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+3. Install the required packages:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Set up your Google Fonts API key:
+   - Get an API key from [Google Cloud Console](https://console.cloud.google.com/)
+   - Create a `.env` file in the project root
+   - Add your API key: `GOOGLE_FONTS_API_KEY=your_api_key_here`
 
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+## Running the Application
 
-3. Set up environment variables:
-Create a `.env` file with:
-```
-GOOGLE_FONTS_API_KEY=your_api_key_here
-```
+1. Activate your virtual environment if not already activated
+2. Run the Flask application:
+   ```bash
+   python app.py
+   ```
+3. Open your browser and navigate to `http://localhost:5000`
 
-4. Run the application:
-```bash
-python app.py
-```
+## Usage
 
-## Deployment
+1. Enter the text you want to make glittery
+2. Choose a font from the dropdown menu
+3. Select a glitter effect
+4. Click "Generate Glitter Text" to create your image
+5. The generated image will appear below the form
+6. Right-click and save the image, or it will automatically download
 
-This application can be deployed to Render.com:
+## Requirements
 
-1. Create a new account on [Render](https://render.com)
-2. Click "New +" and select "Web Service"
-3. Connect your GitHub repository
-4. Configure the service:
-   - Name: glitter-text-generator (or your preferred name)
-   - Environment: Python 3
-   - Build Command: `pip install -r requirements.txt`
-   - Start Command: `gunicorn app:app`
-5. Add environment variables:
-   - GOOGLE_FONTS_API_KEY=your_api_key_here
+- Python 3.7+
+- Flask
+- Pillow (PIL)
+- requests
+- python-dotenv
 
 ## License
 
