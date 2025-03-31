@@ -1,0 +1,13 @@
+{
+  "name": "glittertxt",
+  "version": "1.0.0",
+  "description": "Glitter Text Generator",
+  "main": "dist/_worker.js",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev"
+  },
+  "dependencies": {
+    "wrangler": "^3.0.0"
+  }
+} 
