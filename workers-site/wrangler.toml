@@ -1,0 +1,13 @@
+name = "glittertxt"
+type = "webpack"
+account_id = "" # You'll fill this in from Cloudflare
+workers_dev = true
+route = "glitter.birdiegg.com/*"
+zone_id = "" # You'll fill this in from Cloudflare
+
+[site]
+bucket = "./public"
+entry-point = "workers-site"
+
+[env.production]
+name = "glittertxt-prod" 

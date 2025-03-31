@@ -4,8 +4,20 @@ import os
 import io
 import requests
 from datetime import datetime
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 app = Flask(__name__)
+
+# Enable CORS for Cloudflare Pages
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
 
 # Google Fonts API key (you'll need to set this in .env)
 GOOGLE_FONTS_API_KEY = os.getenv('GOOGLE_FONTS_API_KEY', '')
@@ -168,4 +180,6 @@ def generate():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Use PORT environment variable if available (for Cloudflare)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
