@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Glitter Text Generator",
   "scripts": {
-    "deploy": "wrangler deploy"
+    "pages:dev": "wrangler pages dev --compatibility-date=2024-03-31",
+    "pages:deploy": "wrangler pages deploy ."
   },
   "dependencies": {
     "wrangler": "^3.28.0"
