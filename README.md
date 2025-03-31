@@ -1,58 +1,45 @@
-# Glitter Text Generator
+# Glitter Text Generator ✨
 
-A web application that generates glittery text effects using custom fonts and glitter animations.
+A web application that generates glitter text GIFs using custom fonts and glitter effects.
 
 ## Features
 
-- Create text with glitter effects
-- Choose from various Google Fonts
-- Multiple glitter effect options
-- Real-time preview
-- Download generated images
+- Create animated glitter text GIFs
+- Choose from a variety of Google Fonts
+- Multiple glitter effects to choose from
+- Download generated GIFs
+- Modern, dark-themed UI
 
 ## Setup
 
 1. Clone this repository
-2. Create a virtual environment and activate it:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-3. Install the required packages:
+2. Install the required dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-4. Set up your Google Fonts API key:
-   - Get an API key from [Google Cloud Console](https://console.cloud.google.com/)
-   - Create a `.env` file in the project root
-   - Add your API key: `GOOGLE_FONTS_API_KEY=your_api_key_here`
+3. Add glitter effect GIFs to the `static/gifs` directory. The GIFs should be named `glitter1.gif`, `glitter2.gif`, etc.
 
 ## Running the Application
 
-1. Activate your virtual environment if not already activated
-2. Run the Flask application:
+1. Start the Flask development server:
    ```bash
    python app.py
    ```
-3. Open your browser and navigate to `http://localhost:5000`
+2. Open your web browser and navigate to `http://localhost:5000`
 
 ## Usage
 
-1. Enter the text you want to make glittery
+1. Enter the text you want to convert to glitter
 2. Choose a font from the dropdown menu
 3. Select a glitter effect
-4. Click "Generate Glitter Text" to create your image
-5. The generated image will appear below the form
-6. Right-click and save the image, or it will automatically download
+4. Click "Generate Glitter Text"
+5. Preview your generated GIF
+6. Click the download button to save your GIF
 
 ## Requirements
 
 - Python 3.7+
 - Flask
-- Pillow (PIL)
+- Pillow
 - requests
-- python-dotenv
-
-## License
-
-MIT License 
+- python-dotenv 

@@ -7,16 +7,26 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+# Google Fonts API key (you'll need to set this in .env)
+GOOGLE_FONTS_API_KEY = os.getenv('GOOGLE_FONTS_API_KEY', '')
+
 def get_google_fonts():
-    """Return default fonts"""
-    return [
-        ('Roboto', 'https://fonts.googleapis.com/css2?family=Roboto&display=swap'),
-        ('Open Sans', 'https://fonts.googleapis.com/css2?family=Open+Sans&display=swap'),
-        ('Lato', 'https://fonts.googleapis.com/css2?family=Lato&display=swap'),
-        ('Jacquard 12', 'https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap'),
-        ('Nabla', 'https://fonts.googleapis.com/css2?family=Nabla&display=swap' ),
-        ('Sarina', 'https://fonts.googleapis.com/css2?family=Sarina&display=swap' )
-    ]
+    """Fetch available Google Fonts"""
+    url = f"https://www.googleapis.com/webfonts/v1/webfonts?key={GOOGLE_FONTS_API_KEY}"
+    try:
+        response = requests.get(url)
+        fonts = response.json()
+        return [(font['family'], font['files']['regular']) for font in fonts['items']]
+    except:
+        # Return some default fonts if API call fails
+        return [
+            ('Roboto', 'https://fonts.googleapis.com/css2?family=Roboto&display=swap'),
+            ('Open Sans', 'https://fonts.googleapis.com/css2?family=Open+Sans&display=swap'),
+            ('Lato', 'https://fonts.googleapis.com/css2?family=Lato&display=swap'),
+            ('Jacquard 12', 'https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap'),
+            ('Nabla', 'https://fonts.googleapis.com/css2?family=Nabla&display=swap' ),
+            ('Sarina', 'https://fonts.googleapis.com/css2?family=Sarina&display=swap' )
+        ]
 
 def download_font(font_url):
     """Download and verify font file"""
@@ -158,4 +168,4 @@ def generate():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True) 
+    app.run(debug=True)
