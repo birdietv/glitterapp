@@ -53,6 +53,19 @@
             cursor: pointer;
         }
 
+        .glitter-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px;
+        }
+
+        .glitter-preview {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+        }
+
         button {
             display: block;
             width: 100%;
@@ -165,7 +178,12 @@
                 <label for="effect">Choose a Glitter Effect:</label>
                 <select id="effect" name="effect" required>
                     {% for effect in glitter_effects %}
-                    <option value="{{ effect }}">{{ effect|title }}</option>
+                    <option value="{{ effect }}" data-preview="{{ url_for('static', filename='gifs/' + effect + '.gif') }}">
+                        <div class="glitter-option">
+                            <img src="{{ url_for('static', filename='gifs/' + effect + '.gif') }}" class="glitter-preview" alt="{{ effect }}">
+                            {{ effect|title }}
+                        </div>
+                    </option>
                     {% endfor %}
                 </select>
             </div>
@@ -176,6 +194,113 @@
     </div>
 
     <script>
+        // Create custom select with previews
+        const effectSelect = document.getElementById('effect');
+        const customSelect = document.createElement('div');
+        customSelect.className = 'custom-select';
+        customSelect.style.cssText = `
+            position: relative;
+            width: 100%;
+        `;
+
+        const selectButton = document.createElement('button');
+        selectButton.type = 'button';
+        selectButton.className = 'select-button';
+        selectButton.style.cssText = `
+            width: 100%;
+            padding: 10px;
+            background-color: #3d3d3d;
+            border: 2px solid #ff69b4;
+            border-radius: 5px;
+            color: #ffffff;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        `;
+
+        const optionsContainer = document.createElement('div');
+        optionsContainer.className = 'options-container';
+        optionsContainer.style.cssText = `
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #3d3d3d;
+            border: 2px solid #ff69b4;
+            border-radius: 5px;
+            margin-top: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+        `;
+
+        // Create options
+        Array.from(effectSelect.options).forEach(option => {
+            const optionElement = document.createElement('div');
+            optionElement.className = 'option';
+            optionElement.style.cssText = `
+                padding: 10px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            `;
+            
+            const preview = document.createElement('img');
+            preview.src = option.dataset.preview;
+            preview.className = 'glitter-preview';
+            preview.style.cssText = `
+                width: 30px;
+                height: 30px;
+                object-fit: contain;
+            `;
+            
+            const text = document.createElement('span');
+            text.textContent = option.text;
+            
+            optionElement.appendChild(preview);
+            optionElement.appendChild(text);
+            
+            optionElement.addEventListener('click', () => {
+                effectSelect.value = option.value;
+                selectButton.innerHTML = `
+                    <img src="${option.dataset.preview}" class="glitter-preview" style="width: 30px; height: 30px; object-fit: contain;">
+                    ${option.text}
+                `;
+                optionsContainer.style.display = 'none';
+            });
+            
+            optionsContainer.appendChild(optionElement);
+        });
+
+        // Set initial button content
+        const initialOption = effectSelect.options[0];
+        selectButton.innerHTML = `
+            <img src="${initialOption.dataset.preview}" class="glitter-preview" style="width: 30px; height: 30px; object-fit: contain;">
+            ${initialOption.text}
+        `;
+
+        // Toggle options
+        selectButton.addEventListener('click', () => {
+            optionsContainer.style.display = optionsContainer.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // Close options when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!customSelect.contains(e.target)) {
+                optionsContainer.style.display = 'none';
+            }
+        });
+
+        // Replace original select with custom one
+        effectSelect.parentNode.replaceChild(customSelect, effectSelect);
+        customSelect.appendChild(selectButton);
+        customSelect.appendChild(optionsContainer);
+
+        // Form submission
         document.getElementById('textForm').onsubmit = async (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
