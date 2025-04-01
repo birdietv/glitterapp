@@ -16,21 +16,27 @@ lib64/
 parts/
 sdist/
 var/
+wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-venv/
-.env
 
-# Temporary files
-temp_font.ttf
+# Virtual Environment
+venv/
+ENV/
 
 # IDE
-.vscode/
 .idea/
+.vscode/
 *.swp
 *.swo
 
+# Environment variables
+.env
+
 # OS
 .DS_Store
-Thumbs.db 
+Thumbs.db
+
+# Temporary files
+temp_font.ttf 
