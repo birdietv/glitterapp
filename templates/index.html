@@ -345,7 +345,11 @@
 
         document.querySelectorAll('.font-option').forEach(option => {
             option.addEventListener('click', () => {
+                // Update the button text and apply the font
                 fontButton.textContent = option.textContent;
+                fontButton.style.fontFamily = option.dataset.font === 'Open Sans' ? "'Open Sans', sans-serif" : 
+                                             option.dataset.font === 'Jacquard 12' ? "'Jacquard 12', cursive" :
+                                             `'${option.dataset.font}', ${option.dataset.font === 'Nabla' || option.dataset.font === 'Sarina' ? 'cursive' : 'sans-serif'}`;
                 fontSelect.value = option.dataset.value;
                 fontOptions.style.display = 'none';
             });
@@ -361,6 +365,9 @@
         // Set initial font
         const initialFont = fontSelect.options[0];
         fontButton.textContent = initialFont.text;
+        fontButton.style.fontFamily = initialFont.text === 'Open Sans' ? "'Open Sans', sans-serif" :
+                                    initialFont.text === 'Jacquard 12' ? "'Jacquard 12', cursive" :
+                                    `'${initialFont.text}', ${initialFont.text === 'Nabla' || initialFont.text === 'Sarina' ? 'cursive' : 'sans-serif'}`;
 
         // Create custom select with previews
         const effectSelect = document.getElementById('effect');
