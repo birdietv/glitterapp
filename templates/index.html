@@ -5,12 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glitter Text Generator</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nabla&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarina&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Roboto', sans-serif;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            background-image: url('static/img/starbg.gif');
+            background-size: 40em;
+            background-position: center center;
+            background-repeat: repeat;
             background-color: #1a1a1a;
             color: #ffffff;
         }
@@ -154,6 +163,129 @@
             80% { content: '....'; }
             100% { content: '.....'; }
         }
+
+        /* Font dropdown styles */
+        #font option {
+            font-size: 16px;
+            padding: 8px;
+        }
+
+        #font option[value*="Roboto"] {
+            font-family: 'Roboto', sans-serif !important;
+        }
+
+        #font option[value*="Open+Sans"] {
+            font-family: 'Open Sans', sans-serif !important;
+        }
+
+        #font option[value*="Lato"] {
+            font-family: 'Lato', sans-serif !important;
+        }
+
+        #font option[value*="Jacquard+12"] {
+            font-family: 'Jacquard 12', cursive !important;
+        }
+
+        #font option[value*="Nabla"] {
+            font-family: 'Nabla', cursive !important;
+        }
+
+        #font option[value*="Sarina"] {
+            font-family: 'Sarina', cursive !important;
+        }
+
+        /* Custom font select styles */
+        .font-select {
+            position: relative;
+            width: 100%;
+        }
+
+        .font-select select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ff69b4;
+            border-radius: 5px;
+            background-color: #3d3d3d;
+            color: #ffffff;
+            font-size: 16px;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff69b4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+        }
+
+        .font-select select:focus {
+            outline: none;
+        }
+
+        /* Custom font dropdown */
+        .custom-font-select {
+            position: relative;
+            width: 100%;
+        }
+
+        .font-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #3d3d3d;
+            border: 2px solid #ff69b4;
+            border-radius: 5px;
+            color: #ffffff;
+            text-align: left;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .font-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #3d3d3d;
+            border: 2px solid #ff69b4;
+            border-radius: 5px;
+            margin-top: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+        }
+
+        .font-option {
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .font-option[data-font="Roboto"] {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .font-option[data-font="Open Sans"] {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .font-option[data-font="Lato"] {
+            font-family: 'Lato', sans-serif;
+        }
+
+        .font-option[data-font="Jacquard 12"] {
+            font-family: 'Jacquard 12', cursive;
+        }
+
+        .font-option[data-font="Nabla"] {
+            font-family: 'Nabla', cursive;
+        }
+
+        .font-option[data-font="Sarina"] {
+            font-family: 'Sarina', cursive;
+        }
     </style>
 </head>
 <body>
@@ -167,11 +299,19 @@
             
             <div class="form-group">
                 <label for="font">Choose a Font:</label>
-                <select id="font" name="font" required>
-                    {% for font_name, font_url in fonts %}
-                    <option value="{{ font_url }}">{{ font_name }}</option>
-                    {% endfor %}
-                </select>
+                <div class="custom-font-select">
+                    <button type="button" class="font-button" id="fontButton">Select a font</button>
+                    <div class="font-options" id="fontOptions">
+                        {% for font_name, font_url in fonts %}
+                        <div class="font-option" data-font="{{ font_name }}" data-value="{{ font_url }}">{{ font_name }}</div>
+                        {% endfor %}
+                    </div>
+                    <select id="font" name="font" required style="display: none;">
+                        {% for font_name, font_url in fonts %}
+                        <option value="{{ font_url }}">{{ font_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
 
             <div class="form-group">
@@ -194,6 +334,34 @@
     </div>
 
     <script>
+        // Font dropdown functionality
+        const fontButton = document.getElementById('fontButton');
+        const fontOptions = document.getElementById('fontOptions');
+        const fontSelect = document.getElementById('font');
+
+        fontButton.addEventListener('click', () => {
+            fontOptions.style.display = fontOptions.style.display === 'none' ? 'block' : 'none';
+        });
+
+        document.querySelectorAll('.font-option').forEach(option => {
+            option.addEventListener('click', () => {
+                fontButton.textContent = option.textContent;
+                fontSelect.value = option.dataset.value;
+                fontOptions.style.display = 'none';
+            });
+        });
+
+        // Close font options when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!fontButton.contains(e.target) && !fontOptions.contains(e.target)) {
+                fontOptions.style.display = 'none';
+            }
+        });
+
+        // Set initial font
+        const initialFont = fontSelect.options[0];
+        fontButton.textContent = initialFont.text;
+
         // Create custom select with previews
         const effectSelect = document.getElementById('effect');
         const customSelect = document.createElement('div');
@@ -296,7 +464,8 @@
         });
 
         // Replace original select with custom one
-        effectSelect.parentNode.replaceChild(customSelect, effectSelect);
+        effectSelect.style.display = 'none';  // Hide instead of removing
+        effectSelect.parentNode.insertBefore(customSelect, effectSelect);
         customSelect.appendChild(selectButton);
         customSelect.appendChild(optionsContainer);
 
@@ -306,10 +475,6 @@
             const formData = new FormData(e.target);
             const preview = document.getElementById('preview');
             const generateBtn = document.getElementById('generateBtn');
-            
-            // Get the selected value from our custom select
-            const selectedValue = effectSelect.value;
-            formData.set('effect', selectedValue);
             
             try {
                 // Show loading state
