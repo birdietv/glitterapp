@@ -307,6 +307,10 @@
             const preview = document.getElementById('preview');
             const generateBtn = document.getElementById('generateBtn');
             
+            // Get the selected value from our custom select
+            const selectedValue = effectSelect.value;
+            formData.set('effect', selectedValue);
+            
             try {
                 // Show loading state
                 generateBtn.disabled = true;
