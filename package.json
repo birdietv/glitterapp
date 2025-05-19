@@ -1,0 +1,9 @@
+{
+  "name": "glitterapp",
+  "version": "1.0.0",
+  "description": "Glitter Text Generator",
+  "main": "_worker.js",
+  "dependencies": {
+    "hono": "^3.12.0"
+  }
+} 

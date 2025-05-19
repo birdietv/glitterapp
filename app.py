@@ -5,7 +5,7 @@ import io
 import requests
 from datetime import datetime
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='public/static')
 
 def get_google_fonts():
     """Return default fonts"""
@@ -73,7 +73,7 @@ def create_glitter_text(text, font_url, glitter_effect):
         img_height = text_height + padding * 2
         
         # Load glitter effect
-        glitter_path = f'static/gifs/{glitter_effect}.gif'
+        glitter_path = os.path.join(app.static_folder, 'gifs', f'{glitter_effect}.gif')
         if not os.path.exists(glitter_path):
             raise Exception(f"Glitter effect not found: {glitter_effect}")
         
@@ -156,6 +156,14 @@ def generate():
         )
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+# Add Cloudflare Workers handler
+def handle_request(request):
+    """Handle requests in Cloudflare Workers environment"""
+    return app(request)
+
+# Export the handler for Cloudflare Workers
+export = handle_request
 
 if __name__ == '__main__':
     app.run(debug=True) 
