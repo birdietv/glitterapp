@@ -5,18 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glitter Text Generator</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nabla&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarina&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Roboto', sans-serif;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            background-image: url('static/img/starbg.gif');
+            background-size: 40em;
+            background-position: center center;
+            background-repeat: repeat;
             background-color: #1a1a1a;
             color: #ffffff;
         }
 
         .container {
-            background-color: #2d2d2d;
+            background-color: #262323;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -25,11 +34,20 @@
         h1 {
             text-align: center;
             color: #ff69b4;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #6fda7f;
             margin-bottom: 30px;
+            font-size: 1.2em;
         }
 
         .form-group {
             margin-bottom: 20px;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         label {
@@ -39,8 +57,13 @@
         }
 
         input[type="text"],
-        select {
+        select,
+        .custom-font-select,
+        .custom-select,
+        .font-button,
+        .select-button {
             width: 100%;
+            box-sizing: border-box;
             padding: 10px;
             border: 2px solid #ff69b4;
             border-radius: 5px;
@@ -49,8 +72,27 @@
             font-size: 16px;
         }
 
+        .custom-font-select,
+        .custom-select {
+            border: none;
+            padding: 0;
+        }
+
         select {
             cursor: pointer;
+        }
+
+        .glitter-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px;
+        }
+
+        .glitter-preview {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
         }
 
         button {
@@ -141,11 +183,135 @@
             80% { content: '....'; }
             100% { content: '.....'; }
         }
+
+        /* Font dropdown styles */
+        #font option {
+            font-size: 16px;
+            padding: 8px;
+        }
+
+        #font option[value*="Roboto"] {
+            font-family: 'Roboto', sans-serif !important;
+        }
+
+        #font option[value*="Open+Sans"] {
+            font-family: 'Open Sans', sans-serif !important;
+        }
+
+        #font option[value*="Lato"] {
+            font-family: 'Lato', sans-serif !important;
+        }
+
+        #font option[value*="Jacquard+12"] {
+            font-family: 'Jacquard 12', cursive !important;
+        }
+
+        #font option[value*="Nabla"] {
+            font-family: 'Nabla', cursive !important;
+        }
+
+        #font option[value*="Sarina"] {
+            font-family: 'Sarina', cursive !important;
+        }
+
+        /* Custom font select styles */
+        .font-select {
+            position: relative;
+            width: 100%;
+        }
+
+        .font-select select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ff69b4;
+            border-radius: 5px;
+            background-color: #3d3d3d;
+            color: #ffffff;
+            font-size: 16px;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff69b4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+        }
+
+        .font-select select:focus {
+            outline: none;
+        }
+
+        /* Custom font dropdown */
+        .custom-font-select {
+            position: relative;
+            width: 100%;
+        }
+
+        .font-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #3d3d3d;
+            border: 2px solid #ff69b4;
+            border-radius: 5px;
+            color: #ffffff;
+            text-align: left;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .font-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #3d3d3d;
+            border: 2px solid #ff69b4;
+            border-radius: 5px;
+            margin-top: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+        }
+
+        .font-option {
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .font-option[data-font="Roboto"] {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .font-option[data-font="Open Sans"] {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .font-option[data-font="Lato"] {
+            font-family: 'Lato', sans-serif;
+        }
+
+        .font-option[data-font="Jacquard 12"] {
+            font-family: 'Jacquard 12', cursive;
+        }
+
+        .font-option[data-font="Nabla"] {
+            font-family: 'Nabla', cursive;
+        }
+
+        .font-option[data-font="Sarina"] {
+            font-family: 'Sarina', cursive;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>✨ Glitter Text Generator ✨</h1>
+        <h2>Make your own custom glitter text gifs!</h2>
         <form id="textForm" action="/generate" method="POST">
             <div class="form-group">
                 <label for="text">Enter Your Text:</label>
@@ -154,18 +320,31 @@
             
             <div class="form-group">
                 <label for="font">Choose a Font:</label>
-                <select id="font" name="font" required>
-                    {% for font_name, font_url in fonts %}
-                    <option value="{{ font_url }}">{{ font_name }}</option>
-                    {% endfor %}
-                </select>
+                <div class="custom-font-select">
+                    <button type="button" class="font-button" id="fontButton">Select a font</button>
+                    <div class="font-options" id="fontOptions">
+                        {% for font_name, font_url in fonts %}
+                        <div class="font-option" data-font="{{ font_name }}" data-value="{{ font_url }}">{{ font_name }}</div>
+                        {% endfor %}
+                    </div>
+                    <select id="font" name="font" required style="display: none;">
+                        {% for font_name, font_url in fonts %}
+                        <option value="{{ font_url }}">{{ font_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
 
             <div class="form-group">
                 <label for="effect">Choose a Glitter Effect:</label>
                 <select id="effect" name="effect" required>
                     {% for effect in glitter_effects %}
-                    <option value="{{ effect }}">{{ effect|title }}</option>
+                    <option value="{{ effect }}" data-preview="{{ url_for('static', filename='gifs/' + effect + '.gif') }}">
+                        <div class="glitter-option">
+                            <img src="{{ url_for('static', filename='gifs/' + effect + '.gif') }}" class="glitter-preview" alt="{{ effect }}">
+                            {{ effect|title }}
+                        </div>
+                    </option>
                     {% endfor %}
                 </select>
             </div>
@@ -176,6 +355,149 @@
     </div>
 
     <script>
+        // Font dropdown functionality
+        const fontButton = document.getElementById('fontButton');
+        const fontOptions = document.getElementById('fontOptions');
+        const fontSelect = document.getElementById('font');
+
+        fontButton.addEventListener('click', () => {
+            fontOptions.style.display = fontOptions.style.display === 'none' ? 'block' : 'none';
+        });
+
+        document.querySelectorAll('.font-option').forEach(option => {
+            option.addEventListener('click', () => {
+                // Update the button text and apply the font
+                fontButton.textContent = option.textContent;
+                fontButton.style.fontFamily = option.dataset.font === 'Open Sans' ? "'Open Sans', sans-serif" : 
+                                             option.dataset.font === 'Jacquard 12' ? "'Jacquard 12', cursive" :
+                                             `'${option.dataset.font}', ${option.dataset.font === 'Nabla' || option.dataset.font === 'Sarina' ? 'cursive' : 'sans-serif'}`;
+                fontSelect.value = option.dataset.value;
+                fontOptions.style.display = 'none';
+            });
+        });
+
+        // Close font options when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!fontButton.contains(e.target) && !fontOptions.contains(e.target)) {
+                fontOptions.style.display = 'none';
+            }
+        });
+
+        // Set initial font
+        const initialFont = fontSelect.options[0];
+        fontButton.textContent = initialFont.text;
+        fontButton.style.fontFamily = initialFont.text === 'Open Sans' ? "'Open Sans', sans-serif" :
+                                    initialFont.text === 'Jacquard 12' ? "'Jacquard 12', cursive" :
+                                    `'${initialFont.text}', ${initialFont.text === 'Nabla' || initialFont.text === 'Sarina' ? 'cursive' : 'sans-serif'}`;
+
+        // Create custom select with previews
+        const effectSelect = document.getElementById('effect');
+        const customSelect = document.createElement('div');
+        customSelect.className = 'custom-select';
+        customSelect.style.cssText = `
+            position: relative;
+            width: 100%;
+        `;
+
+        const selectButton = document.createElement('button');
+        selectButton.type = 'button';
+        selectButton.className = 'select-button';
+        selectButton.style.cssText = `
+            width: 100%;
+            padding: 10px;
+            background-color: #3d3d3d;
+            border: 2px solid #ff69b4;
+            border-radius: 5px;
+            color: #ffffff;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        `;
+
+        const optionsContainer = document.createElement('div');
+        optionsContainer.className = 'options-container';
+        optionsContainer.style.cssText = `
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #3d3d3d;
+            border: 2px solid #ff69b4;
+            border-radius: 5px;
+            margin-top: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+        `;
+
+        // Create options
+        Array.from(effectSelect.options).forEach(option => {
+            const optionElement = document.createElement('div');
+            optionElement.className = 'option';
+            optionElement.style.cssText = `
+                padding: 10px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            `;
+            
+            const preview = document.createElement('img');
+            preview.src = option.dataset.preview;
+            preview.className = 'glitter-preview';
+            preview.style.cssText = `
+                width: 30px;
+                height: 30px;
+                object-fit: contain;
+            `;
+            
+            const text = document.createElement('span');
+            text.textContent = option.text;
+            
+            optionElement.appendChild(preview);
+            optionElement.appendChild(text);
+            
+            optionElement.addEventListener('click', () => {
+                effectSelect.value = option.value;
+                selectButton.innerHTML = `
+                    <img src="${option.dataset.preview}" class="glitter-preview" style="width: 30px; height: 30px; object-fit: contain;">
+                    ${option.text}
+                `;
+                optionsContainer.style.display = 'none';
+            });
+            
+            optionsContainer.appendChild(optionElement);
+        });
+
+        // Set initial button content
+        const initialOption = effectSelect.options[0];
+        selectButton.innerHTML = `
+            <img src="${initialOption.dataset.preview}" class="glitter-preview" style="width: 30px; height: 30px; object-fit: contain;">
+            ${initialOption.text}
+        `;
+
+        // Toggle options
+        selectButton.addEventListener('click', () => {
+            optionsContainer.style.display = optionsContainer.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // Close options when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!customSelect.contains(e.target)) {
+                optionsContainer.style.display = 'none';
+            }
+        });
+
+        // Replace original select with custom one
+        effectSelect.style.display = 'none';  // Hide instead of removing
+        effectSelect.parentNode.insertBefore(customSelect, effectSelect);
+        customSelect.appendChild(selectButton);
+        customSelect.appendChild(optionsContainer);
+
+        // Form submission
         document.getElementById('textForm').onsubmit = async (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
